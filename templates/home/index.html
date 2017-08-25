@@ -1,13 +1,45 @@
 {% extends 'base.html' %}
-
+{% block title %}{{ estabelecimento.nome }}{% endblock %}
 {% block content %}
-
 <div class="container">
     <div class="row">
-        <div class="jumbotron">
-            <h1>Hello</h1>
-            <p>You are on your Dashboard</p>
+
+        <div>
+            <a href="{% url 'lancamento' %}" class="btn btn-info">LANÇAR CONTA A PAGAR</a>
         </div>
+        
+        <table class="table table-striped">
+            <thead>
+                <th>#</th>
+                <th>Título</th>
+                <th>Descrição</th>
+                <th>Valor</th>
+                <th>Tipo</th>
+                {% if user.is_superuser %}
+                <th>Estabelecimento</th>
+                {% endif %}
+                <th>Opções</th>
+            </thead>
+            <tbody>
+                {% for lancamento in lancamentos %}
+                    <tr>
+                        <td>{{ lancamento.id }}</td>
+                        <td>{{ lancamento.titulo }}</td>
+                        <td>{{ lancamento.descricao }}</td>
+                        <td>{{ lancamento.valor }}</td>
+                        <td>{{ lancamento.tipo_lancamento.nome }}</td>
+                        {% if user.is_superuser %}
+                        <td>{{lancamento.estabelecimento.nome}}</td>
+                        {% endif %}
+                        <td>
+                            <a href="javascript:avoid(0)" onClick="alert('teste')">
+                                Dar Baixa
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
 </div>
 {% endblock %}

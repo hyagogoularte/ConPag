@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User as Usuario
+from django.contrib.auth.models import User
 
 # Create your models here.
 class Estabelecimento(models.Model):
@@ -7,12 +7,16 @@ class Estabelecimento(models.Model):
         ordering: ('nome')
 
     nome = models.CharField(max_length=50)
-    usuario = models.ManyToManyField(Usuario)
     data_cadastro = models.DateTimeField(db_index=True, auto_now_add=True)
     data_atualizacao = models.DateTimeField(db_index=True, auto_now=True)
 
     def __str__(self):
-        return self.nome
+        return self.nome 
+
+
+class Usuario(models.Model):
+    usuario = models.OneToOneField(User)
+    estabelecimento = models.ForeignKey(Estabelecimento)
 
 
 class TipoLancamento(models.Model):
@@ -27,17 +31,17 @@ class TipoLancamento(models.Model):
         return self.nome
 
 
-class Item(models.Model):
-    class Meta:
-        ordering = ('data_cadastro', 'nome')
+# class Item(models.Model):
+#     class Meta:
+#         ordering = ('data_cadastro', 'nome')
 
-    nome = models.CharField(db_index=True, max_length=30, blank=False)
-    descricao = models.TextField(max_length=200)
-    data_cadastro = models.DateTimeField(db_index=True, auto_now_add=True)
-    data_atualizacao = models.DateTimeField(db_index=True, auto_now=True)
+#     nome = models.CharField(db_index=True, max_length=30, blank=False)
+#     descricao = models.TextField(max_length=200)
+#     data_cadastro = models.DateTimeField(db_index=True, auto_now_add=True)
+#     data_atualizacao = models.DateTimeField(db_index=True, auto_now=True)
 
-    def __str__(self):
-        return self.nome
+#     def __str__(self):
+#         return self.nome
 
 
 # class TipoPessoa(models.Model):
@@ -58,7 +62,7 @@ class Conta(models.Model):
 
     nome = models.CharField(max_length=30, blank=False)
     saldo = models.DecimalField(max_digits=25, decimal_places=2)
-    id_estabelecimento = models.ForeignKey(Estabelecimento)
+    estabelecimento = models.ForeignKey(Estabelecimento)
     data_cadastro = models.DateTimeField(db_index=True, auto_now_add=True)
     data_atualizacao = models.DateTimeField(db_index=True, auto_now=True)
     
@@ -68,20 +72,20 @@ class Conta(models.Model):
 
 class Lancamento(models.Model):
     class Meta:
-        ordering = ('data_cadastro', 'nome')
+        ordering = ('data_cadastro', 'titulo')
 
-    nome = models.CharField(max_length=40, blank=False)
+    titulo = models.CharField(max_length=40, blank=False)
     descricao = models.TextField(max_length=150, blank=True)
     valor = models.DecimalField(max_digits=25, decimal_places=2)
-    id_estabelecimento = models.ForeignKey(Estabelecimento)
-    id_usuario = models.ForeignKey(Usuario)
-    id_tipo_lancamento = models.ForeignKey(TipoLancamento)
+    estabelecimento = models.ForeignKey(Estabelecimento)
+    usuario = models.ForeignKey(Usuario)
+    tipo_lancamento = models.ForeignKey(TipoLancamento)
     data_vencimento = models.DateField(null=False, blank=True)
     data_pagamento = models.DateField(null=True, blank=True)
     data_cadastro = models.DateTimeField(db_index=True, auto_now_add=True)
 
     def __str__(self):
-        return self.nome
+        return self.titulo
 
 
 # class Pessoa(models.Model):
