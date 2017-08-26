@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
-{% block title %}{{ estabelecimento.nome }}{% endblock %}
+{% block user_first_name %}{{ user.first_name }}{% endblock %}
 {% block content %}
 <div class="container">
     <div class="row">
 
-        <div>
-            <a href="{% url 'lancamento' %}" class="btn btn-info">LANÇAR CONTA A PAGAR</a>
+        <div class="col-md-12" style="text-align: center;">
+            <a href="{% url 'novo-lancamento' %}" class="btn btn-info">LANÇAR CONTA A PAGAR</a>
         </div>
         
         <table class="table table-striped">
@@ -18,6 +18,7 @@
                 {% if user.is_superuser %}
                 <th>Estabelecimento</th>
                 {% endif %}
+                <th>Dar Baixa</th>
                 <th>Opções</th>
             </thead>
             <tbody>
@@ -32,8 +33,17 @@
                         <td>{{lancamento.estabelecimento.nome}}</td>
                         {% endif %}
                         <td>
-                            <a href="javascript:avoid(0)" onClick="alert('teste')">
+                            <a href="/dar-baixa" onClick="">
                                 Dar Baixa
+                            </a>
+                        </td>
+                        <td>
+                            <a href="{% url 'editar-lancamento' lancamento.id %}" title="Editar">
+                                <i class="glyphicon glyphicon-pencil"></i>
+                            </a>
+
+                            <a href="#" data-toggle="modal" data-target="#confirm-delete" data-href="{% url 'deletar-lancamento' lancamento.id %}" title="Deletar">
+                                <i class="glyphicon glyphicon-remove"></i>
                             </a>
                         </td>
                     </tr>
