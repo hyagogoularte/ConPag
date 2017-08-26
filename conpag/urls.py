@@ -22,6 +22,7 @@ from core.forms import LoginForm
 urlpatterns = [
 
     url(r'^home/', include('core.urls')),
+    url(r'^lancamentos/', include('lancamento.urls')),
     url(r'^$', auth_views.login, {'template_name': 'login/login.html', 'authentication_form': LoginForm}, name='login'),
     url(r'^logout/$', auth_views.logout, {'next_page': '/'}), 
     url(r'^admin/', admin.site.urls),

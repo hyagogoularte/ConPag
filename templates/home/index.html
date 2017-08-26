@@ -15,8 +15,11 @@
                 <th>Descrição</th>
                 <th>Valor</th>
                 <th>Tipo</th>
+                <th>Data Vencimento</th>
+                <th>Data Pagamento</th>
+                <th>Usuário</th>
                 {% if user.is_superuser %}
-                <th>Estabelecimento</th>
+                    <th>Estabelecimento</th>
                 {% endif %}
                 <th>Dar Baixa</th>
                 <th>Opções</th>
@@ -24,17 +27,20 @@
             <tbody>
                 {% for lancamento in lancamentos %}
                     <tr>
-                        <td>{{ lancamento.id }}</td>
-                        <td>{{ lancamento.titulo }}</td>
-                        <td>{{ lancamento.descricao }}</td>
-                        <td>{{ lancamento.valor }}</td>
-                        <td>{{ lancamento.tipo_lancamento.nome }}</td>
+                        <td>{{lancamento.id}}</td>
+                        <td>{{lancamento.titulo}}</td>
+                        <td>{{lancamento.descricao}}</td>
+                        <td>{{lancamento.valor}}</td>
+                        <td>{{lancamento.tipo_lancamento}}</td>
+                        <td>{{lancamento.data_vencimento|date:"d/M/y"}}</td>
+                        <td>{{lancamento.data_pagamento|date:"d/M/y"}}</td>
+                        <td>{{lancamento.usuario}}</td>
                         {% if user.is_superuser %}
                         <td>{{lancamento.estabelecimento.nome}}</td>
                         {% endif %}
                         <td>
-                            <a href="/dar-baixa" onClick="">
-                                Dar Baixa
+                            <a href="#" data-toggle="modal" data-target="#confirm-lancamento-baixa" data-href="{% url 'lancamento-baixo' lancamento.id %}" title="Dar Baixa">
+                                <i class="glyphicon glyphicon-download-alt"></i>
                             </a>
                         </td>
                         <td>

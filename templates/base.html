@@ -38,22 +38,6 @@
             </div>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                <ul class="nav navbar-nav navbar-right">
-                  <li class="dropdown">
-                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Configuração
-                     <span class="caret"></span>
-                     </a>
-                     <ul class="dropdown-menu" role="menu">
-                        <li>
-                           <a href="{% url 'home' %}">home</a>
-                        </li>
-                        <li>
-                           <a href="/contas">Contas</a>
-                        </li>
-                        <li>
-                           <a href="/contas">Contas</a>
-                        </li>
-                     </ul>
-                  </li>
                   <li>
                      <a href="/logout">Sair</a>
                   </li>
@@ -74,18 +58,35 @@
          </div>
       </footer>
 
-    <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="confirm-delete" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    ...
+                    Deletar
                 </div>
                 <div class="modal-body">
-                    ...
+                    Você realmente deseja DELETAR o lançamento?
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">CANCELAR</button>
                     <a class="btn btn-danger btn-ok">DELETAR</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="confirm-lancamento-baixa" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    Dar Baixa
+                </div>
+                <div class="modal-body">
+                    Você realmente deseja DAR BAIXA no lançamento?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">CANCELAR</button>
+                    <a class="btn btn-danger btn-ok">DAR BAIXA</a>
                 </div>
             </div>
         </div>
