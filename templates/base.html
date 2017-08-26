@@ -16,12 +16,12 @@
    </head>
    <body>
       {% if messages %}
-      {% for msg in messages %}       
-      <div class="message alert alert-{{msg.level_tag}}" role="alert">
-         {{msg.message}}
-         <a href="#" class="del-msg">&times;</a>
-      </div>
-      {% endfor %}
+        {% for msg in messages %}       
+        <div class="message alert alert-{{msg.level_tag}}" role="alert">
+           {{msg.message}}
+           <a href="#" class="del-msg">&times;</a>
+        </div>
+        {% endfor %}
       {% endif %}
       <nav class="navbar navbar-default">
          <div class="container-fluid">
@@ -33,7 +33,7 @@
                <span class="icon-bar"></span>
                </button>
                <a class="navbar-brand" href="{% url 'home' %}">
-               ConPag - {% block user_first_name %}{% endblock %}, bem vindo!
+               ConPag {% block user_first_name %}{% endblock %}
                </a>
             </div>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">

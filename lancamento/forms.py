@@ -12,15 +12,17 @@ class BootstrapModelForm(forms.ModelForm):
 
 
 class LancamentoForm(BootstrapModelForm):
-    READONLY_FIELDS = ['titulo', 'descricao', 'valor', 'tipo_lancamento', 'data_vencimento']
-    
     class Meta:
         model = Lancamento
         fields = '__all__'
         exclude = ['usuario', 'estabelecimento']
+
+class LancamentoDarBaixaForm(LancamentoForm):
+    READONLY_FIELDS = ['titulo', 'descricao', 'valor', 'tipo_lancamento', 'data_vencimento']
 
     def __init__(self, readonly_form=False, *args, **kwargs):
         super(LancamentoForm, self).__init__(*args, **kwargs)
         if readonly_form:
             for field in self.READONLY_FIELDS:
                 self.fields[field].widget.attrs['readonly'] = True
+

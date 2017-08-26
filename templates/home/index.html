@@ -1,12 +1,36 @@
 {% extends 'base.html' %}
-{% block user_first_name %}{{ user.first_name }}{% endblock %}
+{% block user_first_name %} - {{ user.first_name }}, bem vindo!{% endblock %}
 {% block content %}
 <div class="container">
     <div class="row">
+        {% if not user.is_superuser %}
+            <div class="col-md-6 col-sm-6 col-xs-6" style="text-align: center;">
+                <a href="{% url 'novo-lancamento' %}" class="btn btn-info">LANÇAR CONTA A PAGAR</a>
+            </div>
+        {% endif%}
+        <div class="col-md-6 col-sm-6 col-xs-6" >
+            {% if user.is_superuser %}
+                <table>
+                    <thead>
+                        <th>Estabelecimento / Saldo Conta</th>
+                    </thead>
+                    <tbody>
+                        {% for conta in contas %}
+                            <tr>
+                                <td>{{conta.estabelecimento}} / {{conta.saldo}}</td>
+                            </tr>
+                        {% endfor %}    
+                    </tbody>
+                </table>
+            {% else %}
+              <span class="conta">CONTA</span>
+              <div class="saldo">R$ {{conta.saldo}}</div>
+            {% endif%}
+        </div>  
 
-        <div class="col-md-12" style="text-align: center;">
-            <a href="{% url 'novo-lancamento' %}" class="btn btn-info">LANÇAR CONTA A PAGAR</a>
-        </div>
+        <div class="col-md-6 col-sm-6 col-xs-6" >
+            
+        </div>  
         
         <table class="table table-striped">
             <thead>
@@ -21,8 +45,10 @@
                 {% if user.is_superuser %}
                     <th>Estabelecimento</th>
                 {% endif %}
-                <th>Dar Baixa</th>
-                <th>Opções</th>
+                {% if not user.is_superuser %}
+                    <th>Dar Baixa</th>
+                    <th>Opções</th>
+                {% endif %}
             </thead>
             <tbody>
                 {% for lancamento in lancamentos %}
@@ -36,22 +62,27 @@
                         <td>{{lancamento.data_pagamento|date:"d/M/y"}}</td>
                         <td>{{lancamento.usuario}}</td>
                         {% if user.is_superuser %}
-                        <td>{{lancamento.estabelecimento.nome}}</td>
+                            <td>{{lancamento.estabelecimento.nome}}</td>
                         {% endif %}
-                        <td>
-                            <a href="#" data-toggle="modal" data-target="#confirm-lancamento-baixa" data-href="{% url 'lancamento-baixo' lancamento.id %}" title="Dar Baixa">
-                                <i class="glyphicon glyphicon-download-alt"></i>
-                            </a>
-                        </td>
-                        <td>
-                            <a href="{% url 'editar-lancamento' lancamento.id %}" title="Editar">
-                                <i class="glyphicon glyphicon-pencil"></i>
-                            </a>
 
-                            <a href="#" data-toggle="modal" data-target="#confirm-delete" data-href="{% url 'deletar-lancamento' lancamento.id %}" title="Deletar">
-                                <i class="glyphicon glyphicon-remove"></i>
-                            </a>
-                        </td>
+                        {% if not user.is_superuser %}
+                            <td>
+                                {% if lancamento.data_pagamento == None %}
+                                    <a href="#" data-toggle="modal" data-target="#confirm-lancamento-baixa" data-href="{% url 'lancamento-baixo' lancamento.id %}" title="Dar Baixa">
+                                        <i class="glyphicon glyphicon-download-alt"></i>
+                                    </a>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <a href="{% url 'editar-lancamento' lancamento.id %}" title="Editar">
+                                    <i class="glyphicon glyphicon-pencil"></i>
+                                </a>
+
+                                <a href="#" data-toggle="modal" data-target="#confirm-delete" data-href="{% url 'deletar-lancamento' lancamento.id %}" title="Deletar">
+                                    <i class="glyphicon glyphicon-remove"></i>
+                                </a>
+                            </td>
+                        {% endif %}
                     </tr>
                 {% endfor %}
             </tbody>
